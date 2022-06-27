@@ -1,4 +1,4 @@
-@Library(['github.com/indigo-dc/jenkins-pipeline-library@release/2.1.0']) _
+@Library(['github.com/indigo-dc/jenkins-pipeline-library@2.1.1']) _
 
 def projectConfig
 
@@ -6,33 +6,13 @@ pipeline {
     agent any
 
     stages {
-        stage('OpenAPI linter') {
+        stage('SQA baseline criterion: QC.Doc') {
             steps {
                 script {
                     projectConfig = pipelineConfig(
-                        configFile: './.sqa/config_style.yml',
-                        scmConfigs: [ localBranch: true ]
-                    )
-                    buildStages(projectConfig)
-                }
-            }
-            post {
-                cleanup {
-                    cleanWs()
-                }
-            }
-        }
-        stage('SQA baseline dynamic stages') {
-            when {
-                anyOf {
-                    branch 'master'
-                }
-            }
-            steps {
-                script {
-                    projectConfig = pipelineConfig(
-                        configFile: './.sqa/config_docs.yml',
-                        scmConfigs: [ localBranch: true ]
+                        configFile: '.sqa/config.yml',
+                        scmConfigs: [ localBranch: true ],
+                        validatorDockerImage: 'eoscsynergy/jpl-validator:2.4.0'
                     )
                     buildStages(projectConfig)
                 }

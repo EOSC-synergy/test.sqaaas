@@ -1,0 +1,16 @@
+config:
+  credentials: []
+  project_repos:
+    github.com/EOSC-synergy/sqaaas-tooling:
+      branch: 1.7.0-only_im_client
+      repo: https://github.com/EOSC-synergy/sqaaas-tooling
+environment:
+  JPL_DOCKERFORCEBUILD: enabled
+sqa_criteria:
+  QC.Doc:
+    repos:
+      this_repo:
+        commands:
+        - npm run build
+        container: qc.doc_gummy-orange-toad
+timeout: 1800
